@@ -37,6 +37,7 @@ LEJOS_PLATFORM_SOURCES := $(addprefix $(LEJOS_PLATFORM_SOURCES_PATH)/, \
 	i2c.c \
 	sound.c \
 	flashprog.c \
+	hs.c \
 	bt.c )
 endif
 
@@ -44,10 +45,13 @@ ifndef LEJOS_HOOK_SOURCES
 LEJOS_HOOK_SOURCES := $(addprefix $(LEJOS_PLATFORM_SOURCES_PATH)/, \
 	nxt_avr.c \
 	sensors.c \
+	sensors1.c \
 	nxt_lcd.c )
 endif
 
 C_LIB_SOURCES = \
+	ecrobot_mindsensors.c \
+	ecrobot_rs485.c \
 	ecrobot_usb.c \
 	ecrobot_HiTechnic.c \
 	ecrobot_device_hook.c \

@@ -4,6 +4,6 @@ function ret = ver_nxtOSEK()
 % this info is used for only Embedded Coder Robot NXT installation.
 %
 
-ret = 2.12;
+ret = 2.13;
 
 %end of file

@@ -20,10 +20,13 @@
 #include "bt.h"
 #include "sound.h"
 #include "udp.h"
+#include "hs.h"
 
 #include "ecrobot_types.h"
 #include "ecrobot_bluetooth.h"
 #include "ecrobot_usb.h"
+#include "ecrobot_rs485.h"
+#include "ecrobot_mindsensors.h"
 
 typedef enum {
 	NXT_PORT_A,

@@ -243,10 +243,10 @@ void ecrobot_get_color_sensor(U8 port_id, S16 buf[3])
 
 	if (i2c_busy(port_id) == 0)
 	{
-		/* convert to 10 bit value */
-		color[port_id][0] = ((S16)data[port_id][4] << 8) | ((S16)data[port_id][5]);
-		color[port_id][1] = ((S16)data[port_id][6] << 8) | ((S16)data[port_id][7]);
-		color[port_id][2] = ((S16)data[port_id][8] << 8) | ((S16)data[port_id][9]);
+		/* convert to 10 bits value with 10bits mask to remove unexpected chunk */
+		color[port_id][0] = (((S16)data[port_id][4] << 8) | ((S16)data[port_id][5] & 0xFF)) & 0x3FF;
+		color[port_id][1] = (((S16)data[port_id][6] << 8) | ((S16)data[port_id][7] & 0xFF)) & 0x3FF;
+		color[port_id][2] = (((S16)data[port_id][8] << 8) | ((S16)data[port_id][9] & 0xFF)) & 0x3FF;
 
 	   /* i2c_start_transaction just triggers an I2C transaction,
 		* actual data transaction between ARM7 and a Color

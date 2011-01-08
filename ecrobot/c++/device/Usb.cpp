@@ -41,10 +41,6 @@ bool Usb::isConnected(void) const
 // send data
 U32 Usb::send(U8* data, U32 offset, U32 length)
 {
-	if ((offset + length) > MAX_USB_DATA_LENGTH)
-	{
-		return 0;
-	}
 	return ecrobot_send_usb(data, offset, length);
 }
 
@@ -52,10 +48,6 @@ U32 Usb::send(U8* data, U32 offset, U32 length)
 // receive data
 U32 Usb::receive(U8* data, U32 offset, U32 length) const
 {
-	if ((offset + length) > MAX_USB_DATA_LENGTH)
-	{
-		return 0;
-	}
 	return ecrobot_read_usb(data, offset, length);
 }
 

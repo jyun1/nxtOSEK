@@ -3,6 +3,13 @@
                               Takashi Chikamasa (takashic@users.sourceforge.net)
 ================================================================================
 
+What's new in 2.13 (May 2010)
+=============================
+- Added ECRobot RS485 C/C++ API (See samples_c\rs485test and samples_c++\cpp\RS485)
+Special thanks to Simone Casale Brunet to develop RS485 API.
+- Added ECRobot mindsensors Multiplexer for NXT Motors (See samples_c\nxtmmxtest)
+Special thanks to Thanh Pham who develop the API
+
 What's new in 2.12 (March 2010)
 =============================
 - sg.exe is removed from nxtOSEK (March 01, 2010)

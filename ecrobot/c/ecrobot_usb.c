@@ -259,7 +259,6 @@ SINT ecrobot_read_usb(U8* buf, U32 off, U32 len)
 SINT ecrobot_send_usb(U8* buf, U32 off, U32 len)
 {
 	if (usb_status != USB_CONNECTED) return 0;
-	if (len > MAX_USB_DATA_LEN) return 0;
 
 	return udp_write(buf, off, len);
 }

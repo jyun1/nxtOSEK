@@ -14,4 +14,6 @@ int uart_clear_rx(U32 u);
 int uart_clear_tx(U32 u);
 int uart_set_break(U32 u);
 int uart_clear_break(U32 u);
+int uart_us0_init_irq(void);
+void uart_us0_interrupts_enable(void);
 #endif
