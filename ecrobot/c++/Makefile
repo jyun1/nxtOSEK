@@ -50,7 +50,8 @@ DEVICE_CPP_SOURCES = $(addprefix $(ECROBOT_CPP_ROOT)/device/, \
 	Speaker.cpp \
 	TouchSensor.cpp \
 	Usb.cpp \
-	Rs485.cpp)
+	Rs485.cpp \
+	NxtColorSensor.cpp)
 
 UTIL_CPP_SOURCES =  $(addprefix $(ECROBOT_CPP_ROOT)/util/, \
 	BTConnection.cpp \

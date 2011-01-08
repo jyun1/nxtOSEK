@@ -57,6 +57,7 @@ C_LIB_SOURCES = \
 	ecrobot_device_hook.c \
 	ecrobot_interface.c \
 	NxtCam.c \
+	colorsensor.c \
 	osek_hook.c
 
 C_LIB_RAMSOURCES := \

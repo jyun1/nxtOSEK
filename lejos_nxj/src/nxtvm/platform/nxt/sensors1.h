@@ -1,6 +1,6 @@
-#ifndef _SENSORS_H
+#ifndef _SENSORS1_H
 //#include "at91sam7s256.h" // commented out 10/04/15 takashic
-#  define _SENSORS_H
+#  define _SENSORS1_H
 
 #  define N_SENSORS (4)
 #  define RS485_PORT (3)

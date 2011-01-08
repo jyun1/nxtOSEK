@@ -70,6 +70,7 @@ SINT main(void)
 
 	init_OS_flag(); /* this should be called before device init */
 	nxt_device_init();
+	ecrobot_initDeviceStatus(); // added 10/28/2010 to fix a bug by tchikama
 	ecrobot_init_nxtstate();
 	show_splash_screen();
 	show_main_screen();

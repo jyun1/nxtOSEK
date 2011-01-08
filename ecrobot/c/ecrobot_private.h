@@ -162,5 +162,6 @@ extern   U8 ecrobot_get_button_state(void);
 extern void ecrobot_init_nxtstate(void);
 extern void ecrobot_poll_nxtstate(void);
 extern void ecrobot_setDeviceInitialized(void);
+extern void ecrobot_initDeviceStatus(void);
 
 #endif

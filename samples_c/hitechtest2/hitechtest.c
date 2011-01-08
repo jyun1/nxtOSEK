@@ -1,4 +1,4 @@
-/* hitechtest.c */ 
+/* hitechtest.c */
 #include "kernel.h"
 #include "kernel_id.h"
 #include "ecrobot_interface.h"
@@ -26,7 +26,7 @@ void TestIRSeeker(U8 port_id)
 	S8 data[6];
 
 	ecrobot_get_ir_seeker(port_id, data);
-		
+
 	display_goto_xy(0, 0);
 	display_string("IR SEEKER TEST");
 
@@ -52,7 +52,7 @@ void TestIRSeeker(U8 port_id)
 void TestColorSensor(U8 port_id)
 {
 	S16 data[3];
-	
+
 	ecrobot_get_color_sensor(port_id, data);
 
 	display_goto_xy(0, 0);
@@ -85,26 +85,22 @@ void TestCompassSensor(U8 port_id)
 TASK(Task1)
 {
 #ifdef COMPASS
-	ecrobot_cal_compass_sensor(NXT_PORT_S3); /* optional API */
-#endif	
+//	ecrobot_cal_compass_sensor(NXT_PORT_S3); /* optional API */
+#endif
 
 	while(1)
 	{
 		display_clear(0);
-		
+
 #ifdef IR_SEEKER
 		TestIRSeeker(NXT_PORT_S1);
-#endif
-
-#ifdef COLOR
+#elif COLOR
 		TestColorSensor(NXT_PORT_S2);
-#endif
-
-#ifdef COMPASS
+#elif COMPASS
 		TestCompassSensor(NXT_PORT_S3);
 #endif
-		
+
 		display_update();
-   		systick_wait_ms(50);
+   		systick_wait_ms(100);
 	}
 }

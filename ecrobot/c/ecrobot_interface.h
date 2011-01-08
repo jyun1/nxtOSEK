@@ -28,6 +28,8 @@
 #include "ecrobot_rs485.h"
 #include "ecrobot_mindsensors.h"
 
+#include "colorsensor.h"
+
 typedef enum {
 	NXT_PORT_A,
 	NXT_PORT_B,
@@ -73,6 +75,38 @@ typedef enum {
 #define LOWSPEED_9V 1
 #define LOWSPEED    2
 
+/* NXT Color Sensor sensor mode macros */
+#define NXT_COLORSENSOR              (0) // activates as a color sensor 
+#define NXT_LIGHTSENSOR_RED          (1) // activates as a light sensor with red lamp
+#define NXT_LIGHTSENSOR_GREEN        (2) // activates as a light sensor with green lamp
+#define NXT_LIGHTSENSOR_BLUE         (3) // activates as a light sensor with blue lamp
+#define NXT_LIGHTSENSOR_WHITE        (4) // activates as a light sensor with white lamp
+#define NXT_LIGHTSENSOR_NONE         (5) // activates as a light sensor with no lamp
+#define NXT_COLORSENSOR_DEACTIVATE   (6) // deactivates the sensor
+#define NUM_OF_NXT_COLORSENSOR_MODES (7)
+
+/* NXT Color Sensor color number macros */
+#define NXT_COLOR_BLACK              (0)
+#define NXT_COLOR_BLUE               (1)
+#define NXT_COLOR_GREEN              (2)
+#define NXT_COLOR_YELLOW             (3)
+#define NXT_COLOR_ORANGE             (4)
+#define NXT_COLOR_RED                (5)
+#define NXT_COLOR_WHITE              (6)
+#define NXT_COLOR_UNKNOWN            (99)
+
+/* HiTechnic Color Sensor calibration modes */
+#define CAL_WHITE  0x43
+#define CAL_BLACK  0x42
+
+/* HiTechnic Prototype Sensor digital port configurations */
+#define HTPS_DIGTAL_PORTS (0x3f)
+#define HTPS_D0           (0x01)
+#define HTPS_D1           (0x02)
+#define HTPS_D2           (0x04)
+#define HTPS_D3           (0x08)
+#define HTPS_D4           (0x10)
+#define HTPS_D5           (0x20)
 
 /* NXT servo motor API */
 extern  S32 ecrobot_get_motor_rev(U8 port_id);
@@ -102,6 +136,16 @@ extern void ecrobot_init_sonar_sensor(U8 port_id);
 extern  S32 ecrobot_get_sonar_sensor(U8 port_id);
 extern void ecrobot_term_sonar_sensor(U8 port_id);
 
+/* NXT color sensor API */
+extern void ecrobot_init_nxtcolorsensor(U8 port_id, U8 mode);
+extern void ecrobot_process_bg_nxtcolorsensor(void);
+extern void ecrobot_set_nxtcolorsensor(U8 port_id, U8 mode);
+extern   U8 ecrobot_get_nxtcolorsensor_mode(U8 port_id);
+extern  U16 ecrobot_get_nxtcolorsensor_id(U8 port_id);
+extern void ecrobot_get_nxtcolorsensor_rgb(U8 port_id, S16 rgb[3]);
+extern  U16 ecrobot_get_nxtcolorsensor_light(U8 port_id);
+extern void ecrobot_term_nxtcolorsensor(U8 port_id);
+
 /* HiTechnic gyro sensor API */
 extern  U16 ecrobot_get_gyro_sensor(U8 port_id);
 
@@ -117,6 +161,7 @@ extern void ecrobot_term_ir_seeker(U8 port_id);
 
 /* HiTechnic color sensor API */
 extern void ecrobot_init_color_sensor(U8 port_id);
+extern   U8 ecrobot_cal_color_sensor(U8 port_id, U8 mode);
 extern void ecrobot_get_color_sensor(U8 port_id, S16 buf[3]);
 extern void ecrobot_term_color_sensor(U8 port_id);
 
@@ -125,6 +170,14 @@ extern void ecrobot_init_compass_sensor(U8 port_id);
 extern   U8 ecrobot_cal_compass_sensor(U8 port_id);
 extern  S16 ecrobot_get_compass_sensor(U8 port_id);
 extern void ecrobot_term_compass_sensor(U8 port_id);
+
+/* HiTechnic prototype sensor API */
+extern void ecrobot_init_prototype_sensor(U8 port_id, U8 rate, U8 dir);
+extern void ecrobot_get_prototype_analog_sensor(U8 port_id, S16 buf[5]);
+extern   U8 ecrobot_get_prototype_digital_sensor(U8 port_id);
+extern void ecrobot_get_prototype_sensor(U8 port_id, S16 a_buf[5], U8 d_buf[6]);
+extern void ecrobot_send_prototype_digital_sensor(U8 port_id, U8 data);
+extern void ecrobot_term_prototype_sensor(U8 port_id);
 
 /* RCX sensors API */
 extern void ecrobot_set_RCX_power_source(U8 port_id);
@@ -147,6 +200,7 @@ extern void ecrobot_status_monitor(const CHAR *target_name);
 extern void ecrobot_adc_data_monitor(const CHAR *target_name);
 extern void ecrobot_bt_data_logger(S8 data1, S8 data2);
 extern void ecrobot_bt_adc_data_logger(S8 data1, S8 data2, S16 adc1, S16 adc2, S16 adc3, S16 adc4);
+extern void ecrobot_sint_var_monitor(SINT vars[16]);
 
 /* NXT sound API */
 extern SINT ecrobot_sound_tone(U32 freq, U32 ms, U32 vol);

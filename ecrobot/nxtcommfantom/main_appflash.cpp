@@ -7,12 +7,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "nxtcommfantom.h"
 
 #include "bios.h"
 #include "flash_loader.h"
 
+
+/*
+ * calculate check sum of a data block
+ *
+ */
+static unsigned int calc_check_sum(unsigned char* data, unsigned int len)
+{
+	unsigned int sum;
+
+	sum = 0;
+	for(int i = 0; i < len; i++)
+	{
+		sum += (unsigned int)data[i];
+	}
+	return sum;
+}
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +42,6 @@ int main(int argc, char *argv[])
 	nFANTOM100_iNXT nxt;
 	ViChar dev_name[MAX_DEV_NAME];
 	char data[DATA_LENGTH];
-	char echo_data[DATA_LENGTH];
 	unsigned short data_num;
 
 	printf("#=========================================================#\n");
@@ -137,25 +153,36 @@ int main(int argc, char *argv[])
 			memset(data, 0, DATA_LENGTH);
 			memcpy(data, &buf[i], lsize - i);
 		}
+		
+		unsigned int sum = calc_check_sum((unsigned char*)data, DATA_LENGTH);
+		if (NXTCommFantom_send(nxt, (char *)data, 0, DATA_LENGTH) == DATA_LENGTH)
+		{
+			int rx_len = 0;
+			clock_t start = clock();
+			while (rx_len == 0)
+			{
+				rx_len = NXTCommFantom_receive(nxt, (char *)data, 0, 4);
 
-		if (NXTCommFantom_send(nxt, (char *)data, 0, DATA_LENGTH) == 0)
+				if ((double)(clock() - start)/CLOCKS_PER_SEC > 5)
+				{
+					printf("ERROR: time out occurred.\n");
+					NXTCommFantom_close(nxt);
+					return 0;
+				}
+			}
+
+			if (rx_len != 4 || sum != *(unsigned int*)data)
+			{
+				/* check sum unmatched */
+				printf("ERROR: failed to upload program.\n");
+//				printf("PC: %x, NXT:%x\n", sum, *(unsigned int*)data);
+				NXTCommFantom_close(nxt);
+				return 0;
+			}
+		}
+		else
 		{
 			printf("ERROR: failed to send data.\n");
-			NXTCommFantom_close(nxt);
-			return 0;
-		}
-
-		if (NXTCommFantom_receive(nxt, (char *)echo_data, 0, DATA_LENGTH) == 0)
-		{
-			printf("ERROR: failed to receive data.\n");
-			NXTCommFantom_close(nxt);
-			return 0;
-		}
-
-		/* check sent data and echo-back data are same */
-		if (memcmp(data, echo_data, DATA_LENGTH) != 0)
-		{
-			printf("ERROR: data is corrupted.\n");
 			NXTCommFantom_close(nxt);
 			return 0;
 		}

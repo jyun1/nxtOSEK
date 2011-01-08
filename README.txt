@@ -3,6 +3,17 @@
                               Takashi Chikamasa (takashic@users.sourceforge.net)
 ================================================================================
 
+What's new in 2.14 (November 2010)
+=============================
+- Added NXT2.0 Color Sensor C/C++ API (See nxtOSEK\samples_c\nxtcolorsensortest and \nxtOSEK\samples_c++\cpp\NxtColorSensor)
+Special thanks to Marcel Hein and Benjamin Bode who developed the APIs
+- Added HiTechnic Prototype Sensor C API (See nxtOSEK\samples_c\hitechtest3)
+- Improved robustness of NXT BIOS and appflash.exe (upload sequence, check sum and error routines)
+Note: If program uproad process was stopped due to some reason (e.g. USB disconnection, data corruption)
+      Keep pushing EXIT button on the NXT longer than one second to shut down the NXT.
+- Fixed a bug in ECRobot C++ API(GyroSensor.setOffset)
+- Fixed a bug for ecrobot_device_initialize when application program is re-started
+
 What's new in 2.13 (May 2010)
 =============================
 - Added ECRobot RS485 C/C++ API (See samples_c\rs485test and samples_c++\cpp\RS485)

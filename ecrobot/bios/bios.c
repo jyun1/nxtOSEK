@@ -50,8 +50,17 @@ int main(void)
 	{
 		nxt_device_init();
 		clear_flash_request();
-		flash_loader();
+		if (!flash_loader())
+		{
+			/*
+			 * flash loader was failed due to some reason.
+			 * So flash loader should be executed at next NXT BIOS execution.
+			 */
+			set_flash_request();
+			terminate_flash();
+		}
 	}
+
 	JUMP_TO_APPLICATION
 	
 	/* never reached here */

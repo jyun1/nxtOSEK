@@ -20,7 +20,8 @@ mOffset(DEFAULT_OFFSET)
 // set sensor offset data at 0 [deg/sec]
 void GyroSensor::setOffset(S16 offset)
 {
-	mOffset = (1023>offset)? 1023:((offset < 0)? 0:offset);
+//	mOffset = (1023>offset)? 1023:((offset < 0)? 0:offset);
+	mOffset = (offset>1023)? 1023:((offset<0)? 0:offset);
 }
 
 //=============================================================================
