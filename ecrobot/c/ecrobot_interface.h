@@ -28,7 +28,6 @@
 #include "ecrobot_rs485.h"
 #include "ecrobot_mindsensors.h"
 
-#include "colorsensor.h"
 
 typedef enum {
 	NXT_PORT_A,

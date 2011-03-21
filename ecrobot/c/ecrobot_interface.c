@@ -49,6 +49,9 @@
 #include "ecrobot_private.h"
 #include "ecrobot_interface.h"
 
+#include "colorsensor.h"
+
+
 static volatile U8 deviceStatus = DEVICE_NO_INIT;
 
 
@@ -1108,10 +1111,20 @@ SINT ecrobot_sound_wav(const CHAR *file, U32 length, S32 freq, U32 vol)
 	/* read wav data. Currently, supported PCM file types are 
 	 * linear PCM(data chunkID is "data" and "fact") and non-linear PCM.
 	 */
-	if (wav->data.chunkID == DATA_CHUNK_ID)
+	if (wav -> fmt.dummy == 0x0000 && wav->data.chunkID == DATA_CHUNK_ID)
 	{
 		/* linear PCM */
 		sound_play_sample(wav->data.data, wav->data.chunkSize, (U32)freq, vol);
+	}
+	else if (wav -> fmt.dummy != 0x0000)
+	{
+		WAV_ND *wav_nd = (WAV_ND *)file;
+
+		if (wav_nd->data.chunkID == DATA_CHUNK_ID)
+		{
+			/* linear PCM w/o dummy data */
+			sound_play_sample(wav_nd->data.data, wav_nd->data.chunkSize, (U32)freq, vol);
+		}
 	}
 	else
 	{

@@ -54,6 +54,32 @@ typedef struct {
 	} __attribute__((packed)) data;
 } __attribute__((packed)) WAV;
 
+/* linear PCM without dummy data (same as above w/o fmt.dummy) */
+typedef struct {
+	struct {
+		U32 chunkID;
+		U32 chunkSize;
+		U32 format;
+	} __attribute__((packed)) riff;
+
+	struct {
+		U32 chunkID;
+		U32 chunkSize;
+		U16 audioFormat;
+		U16 numChannels;
+		U32 sampleRate;
+		U32 byteRate;
+		U16 blockAlign;
+		U16 bitsPerSample;
+	} __attribute__((packed)) fmt;
+
+	struct {
+		U32 chunkID;
+		U32 chunkSize;
+		U8  data[];
+	} __attribute__((packed)) data;
+} __attribute__((packed)) WAV_ND;
+
 /* linear PCM (data chunkID is "fact") */
 typedef struct {
 	struct {

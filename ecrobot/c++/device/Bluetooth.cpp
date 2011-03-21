@@ -102,25 +102,38 @@ bool Bluetooth::isConnected(void) const
 }
 
 //=============================================================================
+// get RSSI
+S16 Bluetooth::getRSSI(void)
+{
+	return ecrobot_get_bt_signal_strength();
+}
+
+//=============================================================================
 // send packet data
 U32 Bluetooth::send(U8* data, U32 length)
 {
-	if (length > MAX_BT_DATA_LENGTH)
-	{
-		return 0;
-	}
 	return ecrobot_send_bt_packet(data, length);
+}
+
+//=============================================================================
+// send data
+U32 Bluetooth::send(const void* data, U32 offset, U32 length)
+{
+	return ecrobot_send_bt(data, offset, length);
 }
 
 //=============================================================================
 // receive packet data
 U32 Bluetooth::receive(U8* data, U32 length) const
 {
-	if (length > MAX_BT_DATA_LENGTH)
-	{
-		return 0;
-	}
 	return ecrobot_read_bt_packet(data, length);
+}
+
+//=============================================================================
+// receive data
+U32 Bluetooth::receive(void* data, U32 offset, U32 length) const
+{
+	return ecrobot_read_bt(data, offset, length);
 }
 
 //=============================================================================

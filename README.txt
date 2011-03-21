@@ -2,6 +2,25 @@
 
                               Takashi Chikamasa (takashic@users.sourceforge.net)
 ================================================================================
+What's new in 2.15 (March 2011)
+=============================
+- Improved and fixed bugs in Bluetooth C/C++ API
+1. Removed BT_BUF_SIZE macro in C API and MAX_BT_DATA_LENGTH in C++ API
+2. Corrected maximum size of Rx data packet buffer to be 126 (formerely, 254 bytes) for ecrobot_read_bt_packet and related C++ API 
+3. Fixed bugs in ecrobot_get_device_address, ecrobot_get_device_name and related C++ API
+4. [RECOMMENDED TO USE] Added C/C++ API to send/read data without data frame restrictions
+Note thath the new C/C++ send/read API are faster and it allows user to fully design data frame structure (extra 2 bytes can be used in 
+user application)
+5. Added C/C++ API to get signal strength (RSSI)
+6. Added Bluetooth C/C++ samples 
+ (samples_c\btinfo, samples_c\btecho, samples_c++\cpp\BluetoothInformation, samples_c++\cpp\BluetoothEcho)
+Special thanks to Yamaguchi-san
+
+- Changed the scope range of ecrobot\c\colorsensor.h from global to internal use only
+Special thanks to Yamaguchi-san
+-  Fixed a bug in ecrobot_sound_wav C API and Speaker C++ API
+(enable to play WAV files that don't contain 2 byte dummy zeros in the fmt block)
+Special thanks to Eric Matsui-san
 
 What's new in 2.14 (November 2010)
 =============================

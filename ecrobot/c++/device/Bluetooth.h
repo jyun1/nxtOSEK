@@ -27,9 +27,14 @@ class Bluetooth
 {
 public:
 	/**
-	 * Maximum length of data in byte for send/receive.
+	 * Maximum length of data in byte to send (= 256 bytes).
 	 */
-	static const U32 MAX_BT_DATA_LENGTH = 254;
+	static const U32 MAX_BT_TX_DATA_LENGTH = BT_MAX_TX_BUF_SIZE; // defined in ecrobot_bluetooth.h
+	
+	/**
+	 * Maximum length of data in byte to receive (= 128 bytes).
+	 */
+	static const U32 MAX_BT_RX_DATA_LENGTH = BT_MAX_RX_BUF_SIZE;  // defined in ecrobot_bluetooth.h
 
 	/**
 	 * Constructor.
@@ -104,22 +109,53 @@ public:
 	 * @return true:connected/false:not connected
 	 */
 	bool isConnected(void) const;
+	
+	/**
+	 * Get RSSI (Received Signal Strength Indicator).
+	 * @param -
+	 * @return RSSI -1 to 255. Higher value means the link quality is better. -1 means Bluetooth is not connected.
+	 */
+	S16 getRSSI(void);
 
 	/**
 	 * Send data to the connected device.
-	 * @param data Data to be sent
-	 * @param length Length of data to be sent (up to 254)
-	 * @return Length of sent data.
+	 * @param data Data buffer to send
+	 * @param length Length of data in bytes to be sent.
+	 * Note that maximum length of data in bytes is MAX_BT_TX_DATA_LENGTH - 2 bytes
+	 * @return Length of sent data in bytes.
 	 */
 	U32 send(U8* data, U32 length);
 
 	/**
+	 * <strong>(RECOMMENDED TO USE)</strong>  Send data to the connected device.
+	 * Note that this API sends data as it is. It means that no addtional data (number of data) is added, so it is good to be used for user designed protocol.
+	 * @param data Data buffer to send
+	 * @param offset Data buffer offset in bytes
+	 * @param length Length of data in bytes to be sent.
+	 * Note that maximum length of data in bytes is MAX_BT_TX_DATA_LENGTH
+	 * @return Length of sent data in bytes
+	 */
+	U32 send(const void* data, U32 offset, U32 length);
+
+	/**
 	 * Receive data from the connected device.
 	 * @param data Data to be received
-	 * @param length Length of data to be received (up to 254)
-	 * @return Length of received data.
+	 * @param length Length of data in bytes to be received
+	 * Note that maximum length of data in bytes is MAX_BT_RX_DATA_LENGTH - 2 bytes
+	 * @return Length of received data in bytes.
 	 */
 	U32 receive(U8* data, U32 length) const;
+
+	/**
+	 * <strong>(RECOMMENDED TO USE)</strong>  Receive data from the connected device. 
+	 * Note that this API receives data as it is. It means that no addtional data (number of data) is added, so it is good to be used for user designed protocol.
+	 * @param data Data buffer to receive
+	 * @param offset Data buffer offset in bytes
+	 * @param length Length of data in bytes to be received.
+	 * Note that maximum length of data in bytes is MAX_BT_RX_DATA_LENGTH
+	 * @return Length of received data in bytes
+	 */
+	U32 receive(void* data, U32 offset, U32 length) const;
 	
 	/**
 	 * Reset all settings in the persistent settings in the BlueCore chip.
