@@ -295,6 +295,12 @@ ifneq "$(OS)" "Windows_NT"
 WINECONSOLE := wineconsole
 endif
 
+ifeq "$(shell uname -o)" "Cygwin"
+PATHTOOL := cygpath -w
+else
+PATHTOOL := echo
+endif
+
 .PHONY: toppers_cfg
 toppers_cfg:
 ifeq ($(TOPPERS_KERNEL), NXT_JSP)
@@ -306,7 +312,7 @@ else
 $(TOPPERS_CFG_SOURCE) $(TOPPERS_CFG_HEADER) implementation.oil : $(TOPPERS_OSEK_OIL_SOURCE)
 	@echo "Generating OSEK kernel config files from $(TOPPERS_OSEK_OIL_SOURCE)"
 	$(WINECONSOLE) $(TOPPERS_OSEK_ROOT_SG)/sg/sg $(TOPPERS_OSEK_OIL_SOURCE) \
-	-os=ECC2 -I$(TOPPERS_OSEK_ROOT_SG)/sg/impl_oil -template=$(TOPPERS_OSEK_ROOT_SG)/sg/lego_nxt.sgt
+	-os=ECC2 -I`$(PATHTOOL) $(TOPPERS_OSEK_ROOT_SG)/sg/impl_oil` -template=`$(PATHTOOL) $(TOPPERS_OSEK_ROOT_SG)/sg/lego_nxt.sgt`
 endif
 
 .PHONY: biosflash
